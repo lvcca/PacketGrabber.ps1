@@ -2,5 +2,6 @@
 Network sniffer in Powershell
 <b>Requires Admin Privs</b>
 
-![image](https://user-images.githubusercontent.com/49540886/129066601-66a8558f-ba78-4a0e-b95f-d3e029158324.png)
+![image](https://user-images.githubusercontent.com/49540886/129073883-ab118ec8-4f75-4783-957a-4cfd11e3b517.png)
+
 
