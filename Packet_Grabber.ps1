@@ -42,7 +42,10 @@ for ($temp = 0; $temp -lt 1; $temp--)
         Write-Host --> -ForegroundColor White -NoNewline 
         Write-Host $dst_ip`: -ForegroundColor Red -NoNewline
         Write-Host $dst_port -ForegroundColor Yellow -NoNewline
-        Write-Host `{ $output_data.ToString() `} -ForegroundColor Green} 
+        Write-Host `n`{ -ForegroundColor Blue
+        Write-Host $output_data.ToString() -ForegroundColor Green -BackgroundColor Black
+        Write-Host `} -ForegroundColor Blue
+        }
 
     catch [System.Exception]{
         Write-Host $_; 
