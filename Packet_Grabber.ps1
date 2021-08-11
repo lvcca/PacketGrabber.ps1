@@ -1,4 +1,4 @@
-﻿Write-Host `n
+Write-Host `n
 #Listening interface address 
 $IP_ADDRESS = "192.168.x.x"
 
@@ -20,7 +20,7 @@ for ($temp = 0; $temp -lt 1; $temp--)
 
         switch($new_buff[9])
         {
-            1  {[string]$protocol = "ICMP"}
+            1  {[string]$protocol = "ICMP"; [string]$data = $new_buff[20..($new_buff.Length)]}
             2  {[string]$protocol = "IGMP"}
             6  {[string]$protocol = "TCP"; [string]$data = $new_buff[39..($new_buff.Length)]}
             17 {[string]$protocol = "UDP"; [string]$data = $new_buff[27..($new_buff.Length)]}
@@ -38,16 +38,15 @@ for ($temp = 0; $temp -lt 1; $temp--)
         {
             $output_data += [system.text.encoding]::GetEncoding("shift_jis").GetString($d)
         }
-
+        
         Write-Host [$protocol] -ForegroundColor Green -NoNewline
         Write-Host $src_ip`: -ForegroundColor Red -NoNewline
         Write-Host $src_port -ForegroundColor Yellow -NoNewline
-        Write-Host --> -ForegroundColor White -NoNewline
+        Write-Host --> -ForegroundColor White -NoNewline 
         Write-Host $dst_ip`: -ForegroundColor Red -NoNewline
         Write-Host $dst_port -ForegroundColor Yellow -NoNewline
-        Write-Host `{ $output_data.ToString() `} -ForegroundColor Green 
+        Write-Host `{ $output_data.ToString() `} -ForegroundColor Green} 
 
-    }
     catch [System.Exception]{
         Write-Host $_; 
     }
