@@ -21,7 +21,7 @@ for ($temp = 0; $temp -lt 1; $temp--)
         switch($new_buff[9])
         {
             1  {[string]$protocol = "ICMP"; [string]$data = $new_buff[20..($new_buff.Length)]}
-            2  {[string]$protocol = "IGMP"}
+            2  {[string]$protocol = "IGMP"; [string]$data = $new_buff[20..($new_buff.Length)]}
             6  {[string]$protocol = "TCP"; [string]$data = $new_buff[39..($new_buff.Length)]}
             17 {[string]$protocol = "UDP"; [string]$data = $new_buff[27..($new_buff.Length)]}
             default {[string]$protocol = "ADD: " + $new_buff[9].toString(); [string]$data = ""}
@@ -34,10 +34,7 @@ for ($temp = 0; $temp -lt 1; $temp--)
 
         [string]$output_data = ""
 
-        forEach ($d in $data.Split(" "))
-        {
-            $output_data += [system.text.encoding]::GetEncoding("shift_jis").GetString($d)
-        }
+        forEach ($d in $data.Split(" ")){$output_data += [system.text.encoding]::GetEncoding("shift_jis").GetString($d)}
         
         Write-Host [$protocol] -ForegroundColor Green -NoNewline
         Write-Host $src_ip`: -ForegroundColor Red -NoNewline
