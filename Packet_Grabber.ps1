@@ -1,6 +1,10 @@
+# Author: Mason Palma
+# Date: 12AUG2021
+# Purpose: Sniff network traffic with Powershell
+
 Write-Host `n
-#Listening interface address 
-$IP_ADDRESS = "192.168.x.x"
+
+$IP_ADDRESS = "192.168.x.x" #Listening interface address 
 
 for ($temp = 0; $temp -lt 1; $temp--)
 {
