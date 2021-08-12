@@ -4,11 +4,10 @@ $IP_ADDRESS = "192.168.x.x"
 
 for ($temp = 0; $temp -lt 1; $temp--)
 {
-
     try{
-        $socket = New-object System.Net.Sockets.Socket([Net.Sockets.AddressFamily]::InterNetwork,[Net.Sockets.SocketType]::Raw, [Net.Sockets.ProtocolType]::Unspecified)
-        $socket.bind((New-Object System.Net.IPEndPoint([Net.IPAddress]$IP_ADDRESS, 0)))
-        $socket.SetSocketOption([Net.Sockets.SocketOptionLevel]::IP, [Net.Sockets.SocketOptionName]::HeaderIncluded, $true)
+
+        $socket = New-object Net.Sockets.Socket([Net.Sockets.AddressFamily]::InterNetwork,[Net.Sockets.SocketType]::Raw, [Net.Sockets.ProtocolType]::Unspecified)
+        $socket.bind((New-Object Net.IPEndPoint([Net.IPAddress]$IP_ADDRESS, 0)))
         $null = $socket.IOControl([Net.Sockets.IOControlCode]::ReceiveAll, [BitConverter]::GetBytes(1), [BitConverter]::GetBytes([int]0))
 
         $buffer = New-Object Byte[]($socket.ReceiveBufferSize)
@@ -24,7 +23,7 @@ for ($temp = 0; $temp -lt 1; $temp--)
             2  {[string]$protocol = "IGMP"; [string]$data = $new_buff[20..($new_buff.Length)]}
             6  {[string]$protocol = "TCP"; [string]$data = $new_buff[39..($new_buff.Length)]}
             17 {[string]$protocol = "UDP"; [string]$data = $new_buff[27..($new_buff.Length)]}
-            default {[string]$protocol = "ADD: " + $new_buff[9].toString(); [string]$data = ""}
+            default {[string]$protocol = "ADD: " + $new_buff[9].toString(); [string]$data = $new_buff[20..($new_buff.Length)]}
         }
 
         [string]$src_ip = $new_buff[12].toString() + '.' + $new_buff[13].toString() + '.' + $new_buff[14].tOString() + '.' + $new_buff[15].toString()
@@ -34,7 +33,7 @@ for ($temp = 0; $temp -lt 1; $temp--)
 
         [string]$output_data = ""
 
-        forEach ($d in $data.Split(" ")){$output_data += [system.text.encoding]::GetEncoding("shift_jis").GetString($d)}
+        forEach ($d in $data.Split(" ")){$output_data += [Text.Encoding]::GetEncoding("shift_jis").GetString($d)}
         
         Write-Host [$protocol] -ForegroundColor Green -NoNewline
         Write-Host $src_ip`: -ForegroundColor Red -NoNewline
@@ -45,9 +44,10 @@ for ($temp = 0; $temp -lt 1; $temp--)
         Write-Host `n`{ -ForegroundColor Blue
         Write-Host $output_data.ToString() -ForegroundColor Green -BackgroundColor Black
         Write-Host `} -ForegroundColor Blue
+        
         }
 
-    catch [System.Exception]{
+    catch [Exception]{
         Write-Host $_; 
     }
     
