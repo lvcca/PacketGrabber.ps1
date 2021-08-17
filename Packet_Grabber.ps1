@@ -6,7 +6,7 @@ Write-Host `n
 
 $IP_ADDRESS = "192.168.x.x" #Listening interface address 
 
-for ($temp = 0; $temp -lt 1; $temp--)
+for ($temp = 0; $temp -lt 1; $null)
 {
     try{
 
